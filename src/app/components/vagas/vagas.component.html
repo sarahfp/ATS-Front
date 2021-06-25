@@ -1,0 +1,36 @@
+<po-page-default >
+  <h2>Painel de Vagas</h2> <br>
+    
+        <div *ngFor="let vaga of vagas" class="po-lg-6 po-mb-1">
+            <po-widget (p-click)="openModal(vaga)" id="cards" class="po-lg-12 po-mb-1" p-title="{{vaga.nome}}">
+                <div class="sample-container-dashboard">{{vaga.descricao}}</div>
+                <br>
+                <div class="po-text-center sample-container-dashboard"><b>{{vaga.local}}</b></div>
+            </po-widget>
+        </div>
+
+</po-page-default>
+
+
+<po-modal p-title="Candidatar-se a vaga" [p-primary-action]="confirm" [p-secondary-action]="close">
+  <div *ngIf="vagaSelecionada != undefined">
+      <po-input p-clean="true" name="name" [(ngModel)]="candidatoSalvar.nome" p-label="Nome" p-icon="po-icon-user" p-required> </po-input>
+      <po-email p-clean="true" name="email" [(ngModel)]="candidatoSalvar.email" p-label="Email" p-placeholder="exemplo@dominio.com" p-required> </po-email>
+      <po-datepicker p-clean="true" name="birthday" [(ngModel)]="candidatoSalvar.datnas" p-label="Data de nascimento" p-placeholder="dd/mm/yyyy" p-required></po-datepicker>
+      <po-input p-clean="true" name="phone" [(ngModel)]="candidatoSalvar.telefone" p-label="Telefone" p-mask="(99) 99999-9999" p-placeholder="(99) 99999-9999" p-icon="po-icon-telephone" p-required></po-input>
+      <po-input p-clean="true" name="address" [(ngModel)]="candidatoSalvar.endereco" p-icon="po-icon-pin" p-label="Endereço"> </po-input>
+      <po-url p-clean="true" name="linkedin" [(ngModel)]="candidatoSalvar.linkedin" p-label="LinkedIn URL"> </po-url>
+      <po-textarea name="message" [(ngModel)]="candidatoSalvar.descricao" p-label="Descrição"></po-textarea>
+      <po-upload
+      name="resume"
+      [p-auto-upload]="true"
+      [p-multiple]="false"
+      p-label="Currículo"
+      [(ngModel)]="curriculoSalvar"
+      p-url="https://localhost:44353/upload"
+      [p-restrictions]="{ allowedExtensions: ['.pdf'], maxFileSize: 204800 }"
+      (p-error)="resumeUploadError($event)"
+      (p-success)="resumeUploadSuccess($event)">
+    </po-upload>
+  </div>
+</po-modal>

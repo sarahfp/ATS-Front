@@ -1,0 +1,34 @@
+<po-page-default>
+    <h2>Gerenciamento de Vagas</h2>
+    <div id ="botao" >
+        <po-button (p-click)="criarVaga()" p-label="Nova Vaga"> </po-button> 
+    </div>
+<br><br>
+    <div>
+        <po-table [p-striped]="true" [p-sort]="true" [p-actions]="actions" [p-columns]="colunas" [p-items]="itens"> 
+            <ng-template p-table-row-template let-rowItem let-i="rowIndex">
+            <po-widget p-title="Candidatos">
+                <div *ngIf="rowItem.candidatos.length==0">
+                    <b>Nenhum candidato encontrado!</b>
+                </div>
+                <div *ngFor="let candidato of rowItem.candidatos">
+                      <b>Nome: </b>{{candidato.nome}} <br>
+                      <b>E-mail: </b>{{candidato.email}} <br>
+                      <b>Telefone: </b>{{candidato.telefone}} <br>
+                      <po-button p-label="Descrição" (p-click)="poDialog.alert({ title: 'Descrição', message: candidato.descricao })"> </po-button>
+                      <po-button p-icon="po-icon-download" (p-click)="getCurriculo(candidato.curriculoID, candidato.nome)"></po-button> <br>
+                      <br>
+                </div> 
+            </po-widget>
+          </ng-template>
+        </po-table>
+    </div>
+</po-page-default>
+
+<po-modal [p-hide-close]="true" [p-title]="vagaEditar?'Editar vaga':'Adicionar vaga'" [p-primary-action]="confirm" [p-secondary-action]="close">
+    <div>
+        <po-input p-clean="true" name="name" [(ngModel)]="vagaSalvar.nome" p-label="Nome" p-icon="po-icon-handshake" required> </po-input>
+        <po-textarea name="message" [(ngModel)]="vagaSalvar.descricao" p-label="Descrição"></po-textarea>
+        <po-input p-clean="true" name="local" [(ngModel)]="vagaSalvar.local" p-label="Local" p-icon="po-icon-pin" p-required> </po-input>
+    </div>
+</po-modal>
